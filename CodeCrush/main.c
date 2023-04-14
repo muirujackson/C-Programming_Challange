@@ -1,30 +1,57 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
+/**
+ * This program should extract the file name at the end of the path.
+ * For instance, the correct output for the first path should be heading.png
+ * execute the code and identify the issue and correct it.
+ */
+
+char *filename( char *path )
+{
+	char *p;
+	int len;
+
+/* find the end of the string */
+	len = strlen(path);
+
+/* return on empty string */
+	if( len==0 )
+		return("[Empty string]");
+
+/* locate the extension separator */
+	p = path+len;
+	while( *p != '/' )
+	{
+		p--;
+		/* avoid backing up too far */
+		if( p==path )
+			return(path);
+	}
+
+/* ensure a filename is present */
+	if( *p == '\0' )
+		return("[No filename]");
+	else
+		return(p+1);
+}
 
 int main()
 {
-    int i ,j ,rows, columns;
+	char *path[] = {
+		"~/Documents/web/images/heading.png",
+		"/mount/omicron/temp/",
+		"~/Documents/web/media/menu.swf",
+		"~/Pictures/vacation/2019/Hawaii/luau_sunday.jpg",
+		"/users/bill/downloads/",
+		"filename.txt"
+	};
+	int x;
 
+	/* display paths and extracted filenames */
+	for( x=0; x<6; x++ )
+	{
+		printf("%s -> %s\n",path[x],filename(path[x]) );
+	}
 
-    printf("How many rows (18 max)? ");
-    scanf("%d",&rows);
-    columns = 'A';
-
-    if(rows > 18)
-    {
-        puts("Rows must be less than or equal to 18");
-        return (0);
-    }
-    for(i=0; i<rows; i++)
-    {
-        for(j=0; j<10; j++)
-        {
-            printf("%d%c ", i, columns+j);
-
-        }
-        putchar('\n');
-        puts("___________________________________________");
-    }
-    /* printf("Hello world!\n"); */
-    return 0;
+	return(0);
 }
